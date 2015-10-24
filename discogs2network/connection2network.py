@@ -27,7 +27,7 @@ def convert_to_artist_network(input_file, output_file):
         for i in range(len(artists)):
             for j in range(i+1, len(artists)):
                 if artists[i] != artists[j]:
-                    csvwriter.writerow([artists[i], artists[j], bondid, roles, id2name[artists[i]], id2name[artists[j]]])
+                    csvwriter.writerow([artists[i], artists[j], bondid, roles])#, id2name[artists[i]], id2name[artists[j]]])
 
     print "saving id to name mapping"
     id2name_file = csv.writer(open("id-name.csv", "w"))
