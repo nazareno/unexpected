@@ -43,4 +43,4 @@ def release_pickle2connection(source_file, dest_file = "connections-wnames.csv")
 
 
 if __name__ == '__main__':
-    release_pickle2connection("data/our-releases-sambaonly.pickle")
+    release_pickle2connection("data/our-releases-samba_mpb_forro_bn.pickle")
