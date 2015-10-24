@@ -29,4 +29,3 @@ def convert_to_artist_network(input_file, output_file):
 
 if __name__ == '__main__':
     convert_to_artist_network("data/connections-wnames-novarious.csv", "artist-network.csv")
-    # convert_to_artist_network("test.csv", "artist-network.csv")

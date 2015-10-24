@@ -30,11 +30,10 @@ def process_element(elem, f):
     country = elem.xpath( 'country/text()')
     styles = elem.xpath( 'styles/style/text()')
     if len(country) > 0 and country[0] == "Brazil" and \
-        len(styles) > 0 and 'Samba' in styles:
+        len(styles) > 0 and ('Samba' in styles or 'MPB' in styles or 'Forro' in styles or 'Bossanova' in styles):
         print "one more: "
         print elem.xpath( 'artists/artist/name/text()')
         result = formatXML(elem)
-        #f.write(result + "\n")
         pickle.dump(result, f)
 
 def formatXML(node):
