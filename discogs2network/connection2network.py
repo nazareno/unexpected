@@ -12,6 +12,8 @@ def convert_to_artist_network(input_file, output_file):
 
     bybond = {}
     id2name = {}
+    connections_count = 0
+    duplicates_count = 0
 
     for row in csvreader:
         bondid = row[0]
@@ -23,12 +25,22 @@ def convert_to_artist_network(input_file, output_file):
         id2name[row[1]] = row[4] # artist id to name
 
     for bondid in bybond.keys():
+        connections = []
         artists = bybond[bondid]['artists']
 
         for i in range(len(artists)):
             for j in range(i+1, len(artists)):
                 if artists[i] != artists[j]:
-                    csvwriter.writerow([artists[i], artists[j], bondid, id2name[artists[i]], id2name[artists[j]], id2name[bondid], __get_string_set(bybond[bondid]['roles'][artists[i]]), __get_string_set(bybond[bondid]['roles'][artists[j]])])
+                    connection = [artists[i], artists[j], bondid, __get_string_set(bybond[bondid]['roles'][artists[i]]), __get_string_set(bybond[bondid]['roles'][artists[j]])]
+                    if not connection in connections:
+                        connections_count+=1
+                        connections.append(connection)
+                        csvwriter.writerow(connection)
+                    else:
+                        duplicates_count += 1
+
+    print "found %i connections (%i duplicated connections were discared)" % (connections_count, duplicates_count)
+
 
     print "saving id to name mapping"
     id2name_file = csv.writer(open("id-name.csv", "w"))
@@ -36,4 +48,4 @@ def convert_to_artist_network(input_file, output_file):
         id2name_file.writerow([id, id2name[id]])
 
 if __name__ == '__main__':
-    convert_to_artist_network("data/connections-wnames-novarious-jazz.csv", "artist-network.csv")
+    convert_to_artist_network("data/connections-wnames-novarious.csv", "artist-network.csv")
