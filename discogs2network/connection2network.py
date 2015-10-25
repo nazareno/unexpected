@@ -28,7 +28,7 @@ def convert_to_artist_network(input_file, output_file):
         for i in range(len(artists)):
             for j in range(i+1, len(artists)):
                 if artists[i] != artists[j]:
-                    csvwriter.writerow([artists[i], artists[j], bondid, __get_string_set(bybond[bondid]['roles'][artists[i]]), __get_string_set(bybond[bondid]['roles'][artists[j]])])
+                    csvwriter.writerow([artists[i], artists[j], bondid, id2name[artists[i]], id2name[artists[j]], id2name[bondid], __get_string_set(bybond[bondid]['roles'][artists[i]]), __get_string_set(bybond[bondid]['roles'][artists[j]])])
 
     print "saving id to name mapping"
     id2name_file = csv.writer(open("id-name.csv", "w"))
@@ -36,4 +36,4 @@ def convert_to_artist_network(input_file, output_file):
         id2name_file.writerow([id, id2name[id]])
 
 if __name__ == '__main__':
-    convert_to_artist_network("data/connections-wnames-novarious.csv", "artist-network.csv")
+    convert_to_artist_network("data/connections-wnames-novarious-jazz.csv", "artist-network.csv")

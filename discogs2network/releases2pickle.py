@@ -2,6 +2,7 @@ __author__ = 'nazareno'
 
 from lxml import etree
 import pickle
+import re
 
 def fast_iter(context, func, *args, **kwargs):
     """
@@ -27,10 +28,21 @@ def fast_iter(context, func, *args, **kwargs):
 
 def process_element(elem, f):
     #print str(elem.xpath( 'released/text()'))
-    country = elem.xpath( 'country/text()')
-    styles = elem.xpath( 'styles/style/text()')
-    if len(country) > 0 and country[0] == "Brazil" and \
-        len(styles) > 0 and ('Samba' in styles or 'MPB' in styles or 'Forro' in styles or 'Bossanova' in styles):
+    # country = elem.xpath( 'country/text()')
+    year = elem.xpath( 'released/text()')
+    if len(year) == 0 or len(year[0]) < 4:
+        return
+    else:
+        #if year[0][0] == "?" or year[0][0:3] == "Not" or year[0][0:4] == "None" or year[0]:
+        the_year = re.findall(r"\D(\d{4})\D", " " + year[0] + " ")
+        if len(the_year) == 0:
+            return
+        year = int(the_year[0])
+    # styles = elem.xpath( 'styles/style/text()')
+    styles = elem.xpath( 'genres/genre/text()')
+    if year >= 1960 and year <1980 and \
+        len(styles) > 0 and 'Jazz' in styles:
+            # ('Samba' in styles or 'MPB' in styles or 'Forro' in styles or 'Bossanova' in styles):
         print "one more: "
         print elem.xpath( 'artists/artist/name/text()')
         result = formatXML(elem)
